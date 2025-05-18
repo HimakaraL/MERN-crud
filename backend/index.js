@@ -24,3 +24,13 @@ app.listen(3002, () => {
 
 app.use("/backend/user", userRoutes)
 app.use("/backend/auth", authRoutes)
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const errMessgae = err.message || "Internal Server Error"
+    res.status(statusCode).json({
+        success: false,
+        errMessgae,
+        statusCode
+    })
+})
