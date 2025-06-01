@@ -21,7 +21,7 @@ export const signin = async (req, res, next) => {
     const validUser = await User.findOne({ email });
     if (!validUser) return next(errorHandler(404, "User not found"));
     const validPassword = bcryptjs.compareSync(req.body.password, validUser.password);
-    if (!validPassword) return next(errorHandler(401, "Invalidd credentials"));
+    if (!validPassword) return next(errorHandler(401, "Invalid credentials"));
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password, ...userDetails } = validUser._doc;
     const expiryDate = new Date(Date.now() + 60 * 60 * 1000);
@@ -31,7 +31,11 @@ export const signin = async (req, res, next) => {
         expires: expiryDate,
       })
       .status(200)
-      .json(userDetails);
+      .json({
+        success: true,
+        userDetails,
+        message: "Login Successful",
+      });
   } catch (error) {
     next(error);
   }
