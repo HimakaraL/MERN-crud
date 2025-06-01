@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function Signin() {
   const [formdata, setFormData] = useState({});
-  const { loading, error } = useSelector((state) => state.userReducer);
+  const { loading, error } = useSelector((state) => state.user);
   const handleChange = (e) => {
     setFormData({ ...formdata, [e.target.id]: e.target.value });
   };
