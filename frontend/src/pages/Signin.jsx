@@ -6,6 +6,7 @@ import {
   loginFailure,
 } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import OAuth from "../components/OAuth";
 
 export default function Signin() {
   const [formdata, setFormData] = useState({});
@@ -64,9 +65,7 @@ export default function Signin() {
         >
           {loading ? "Loading.." : "Log In"}
         </button>
-        <button className="bg-red-500 m-2 p-2 rounded-md w-60 hover:opacity-70">
-          Continue with Google
-        </button>
+        <OAuth />
         <p className="text-xs">
           <Link to="/signup">
             Don&apos;t have an account?{" "}
