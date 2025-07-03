@@ -64,7 +64,7 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`/backend/user/update/${currentUser._id}`, {
+      const res = await fetch(`/backend/user/update/${currentUser.userDetails._id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ export default function Profile() {
   const handleDeleteAccount = async () => {
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+      const res = await fetch(`/backend/user/delete/${currentUser.userDetails._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -102,7 +102,7 @@ export default function Profile() {
 
   const handleSignOut = async () => {
     try {
-      await fetch('/api/auth/signout');
+      await fetch('/backend/auth/signout');
       dispatch(signOut())
     } catch (error) {
       console.log(error);
@@ -126,7 +126,7 @@ export default function Profile() {
       request.resource.size < 2 * 1024 * 1024 &&
       request.resource.contentType.matches('image/.*') */}
         <img
-          src={formData.profilePicture || currentUser.profilePicture}
+          src={formData.profilePicture || currentUser.userDetails.profilePicture}
           alt='profile'
           className='h-24 w-24 self-center cursor-pointer rounded-full object-cover mt-2'
           onClick={() => fileRef.current.click()}
@@ -145,7 +145,7 @@ export default function Profile() {
           )}
         </p>
         <input
-          defaultValue={currentUser.username}
+          defaultValue={currentUser.userDetails.username}
           type='text'
           id='username'
           placeholder='Username'
@@ -153,7 +153,7 @@ export default function Profile() {
           onChange={handleChange}
         />
         <input
-          defaultValue={currentUser.email}
+          defaultValue={currentUser.userDetails.email}
           type='email'
           id='email'
           placeholder='Email'
@@ -173,12 +173,12 @@ export default function Profile() {
       </form>
       <div className='flex justify-between mt-5'>
         <span
-          onClick={handleDeleteAccount}
           className='text-red-700 cursor-pointer'
+          onClick={handleDeleteAccount}
         >
           Delete Account
         </span>
-        <span onClick={handleSignOut} className='text-red-700 cursor-pointer'>
+        <span className='text-red-700 cursor-pointer' onClick={handleSignOut}>
           Sign out
         </span>
       </div>
